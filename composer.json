@@ -1,16 +1,16 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "visifo-php/guard-clauses",
+    "description": "Guard Clauses is a fluent guard clauses library.",
     "keywords": [
-        ":vendor_name",
-        ":package_slug"
+        "visifo",
+        "guard-clauses"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/visifo-php/guard-clauses",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Sergej Tihonov",
+            "email": "sergej@visifo.com",
             "role": "Developer"
         }
     ],
@@ -20,17 +20,16 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpunit/phpunit": "^9.5",
-        "spatie/ray": "^1.28",
         "vimeo/psalm": "^4.8"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src"
+            "Visifo\\GuardClauses\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Visifo\\GuardClauses\\Tests\\": "tests"
         }
     },
     "scripts": {

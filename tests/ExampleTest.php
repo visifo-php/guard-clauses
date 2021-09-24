@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Visifo\GuardClauses\Tests;
 
 use PHPUnit\Framework\TestCase;
 
