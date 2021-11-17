@@ -1,6 +1,6 @@
 {
     "name": "visifo-php/guard-clauses",
-    "description": "Guard Clauses is a fluent guard clauses library.",
+    "description": "Guard Clauses is a fluent argument validation library.",
     "keywords": [
         "visifo",
         "guard-clauses"
