@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Visifo\GuardClauses;
 
@@ -16,13 +18,14 @@ final class Guard
     {
         $this->value = $value;
         $this->optional = true;
-        $this->noValue = !isset($value);
+        $this->noValue = ! isset($value);
         $this->caller = $caller;
     }
 
     public static function argument(mixed $value): Guard
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+
         return new Guard($value, $caller);
     }
 
@@ -38,6 +41,7 @@ final class Guard
         $file = null;
 
         preg_match("/{$this->caller['function']}\((.*?)\)/", $line, $output);
+
         return $output[1];
     }
 
@@ -46,6 +50,7 @@ final class Guard
         if (isset($this->value)) {
             $this->optional = false;
             $this->noValue = false;
+
             return $this;
         }
 
@@ -57,6 +62,7 @@ final class Guard
         if ($this->noValue) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} must be null.");
     }
 
@@ -65,9 +71,10 @@ final class Guard
         if ($this->optional && $this->noValue) {
             return $this;
         }
-        if (!empty($this->value)) {
+        if (! empty($this->value)) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} cannot be empty.");
     }
 
@@ -79,6 +86,7 @@ final class Guard
         if (empty($this->value)) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} must be empty.");
     }
 
@@ -90,6 +98,7 @@ final class Guard
         if ($this->value instanceof $type) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} must be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
     }
 
@@ -98,9 +107,10 @@ final class Guard
         if ($this->optional && $this->noValue) {
             return $this;
         }
-        if (!($this->value instanceof $type)) {
+        if (! ($this->value instanceof $type)) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} cannot be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
     }
 
@@ -110,6 +120,7 @@ final class Guard
         if (is_object($this->value)) {
             $actualType .= " : " . get_class($this->value);
         }
+
         return $actualType;
     }
 
@@ -121,6 +132,7 @@ final class Guard
         if ($this->value == $argument) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} must be equal to: '{$argument}'. Actual: '{$this->value}'.");
     }
 
@@ -132,6 +144,7 @@ final class Guard
         if ($this->value != $argument) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} cannot be equal to '{$argument}'. Actual: '{$this->value}'");
     }
 
@@ -143,6 +156,7 @@ final class Guard
         if ($this->value === $argument) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} must be identical to: '{$argument}'. Actual: '{$this->value}'.");
     }
 
@@ -154,6 +168,7 @@ final class Guard
         if ($this->value != $argument) {
             return $this;
         }
+
         throw new InvalidArgumentException("{$this->getName()} cannot be identical to '{$argument}'. Actual: '{$this->value}'");
     }
 }
