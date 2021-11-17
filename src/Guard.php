@@ -3,25 +3,42 @@
 namespace Visifo\GuardClauses;
 
 use InvalidArgumentException;
+use SplFileObject;
 
 final class Guard
 {
     private mixed $value;
-    private string $name;
     private bool $optional;
     private bool $noValue;
+    private array $caller;
 
-    private function __construct(mixed $value, string $name)
+    private function __construct(mixed $value, array $caller)
     {
         $this->value = $value;
-        $this->name = $name;
         $this->optional = true;
         $this->noValue = !isset($value);
+        $this->caller = $caller;
     }
 
-    public static function argument(mixed $value, string $name = 'Argument'): Guard
+    public static function argument(mixed $value): Guard
     {
-        return new Guard($value, $name);
+        $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+        return new Guard($value, $caller);
+    }
+
+    private function getName(): string
+    {
+        if (count($this->caller) == 0) {
+            return 'Argument';
+        }
+
+        $file = new SplFileObject($this->caller['file']);
+        $file->seek($this->caller['line'] - 1);
+        $line = $file->current();
+        $file = null;
+
+        preg_match("/{$this->caller['function']}\((.*?)\)/", $line, $output);
+        return $output[1];
     }
 
     public function notNull(): Guard
@@ -32,7 +49,7 @@ final class Guard
             return $this;
         }
 
-        throw new InvalidArgumentException("{$this->name} cannot be null.");
+        throw new InvalidArgumentException("{$this->getName()} cannot be null.");
     }
 
     public function null(): Guard
@@ -40,7 +57,7 @@ final class Guard
         if ($this->noValue) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} must be null.");
+        throw new InvalidArgumentException("{$this->getName()} must be null.");
     }
 
     public function notEmpty(): Guard
@@ -51,7 +68,7 @@ final class Guard
         if (!empty($this->value)) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} cannot be empty.");
+        throw new InvalidArgumentException("{$this->getName()} cannot be empty.");
     }
 
     public function empty(): Guard
@@ -62,7 +79,7 @@ final class Guard
         if (empty($this->value)) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} must be empty.");
+        throw new InvalidArgumentException("{$this->getName()} must be empty.");
     }
 
     public function type(string $type): Guard
@@ -73,7 +90,7 @@ final class Guard
         if ($this->value instanceof $type) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} must be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
     }
 
     public function notType(string $type): Guard
@@ -84,7 +101,7 @@ final class Guard
         if (!($this->value instanceof $type)) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} cannot be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} cannot be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
     }
 
     private function getTypeDescription(): string
@@ -104,7 +121,7 @@ final class Guard
         if ($this->value == $argument) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} must be equal to: '{$argument}'. Actual: '{$this->value}'.");
+        throw new InvalidArgumentException("{$this->getName()} must be equal to: '{$argument}'. Actual: '{$this->value}'.");
     }
 
     public function notEqual(mixed $argument): Guard
@@ -115,7 +132,7 @@ final class Guard
         if ($this->value != $argument) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} cannot be equal to '{$argument}'. Actual: '{$this->value}'");
+        throw new InvalidArgumentException("{$this->getName()} cannot be equal to '{$argument}'. Actual: '{$this->value}'");
     }
 
     public function identical(mixed $argument): Guard
@@ -126,7 +143,7 @@ final class Guard
         if ($this->value === $argument) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} must be identical to: '{$argument}'. Actual: '{$this->value}'.");
+        throw new InvalidArgumentException("{$this->getName()} must be identical to: '{$argument}'. Actual: '{$this->value}'.");
     }
 
     public function notIdentical(mixed $argument): Guard
@@ -137,6 +154,6 @@ final class Guard
         if ($this->value != $argument) {
             return $this;
         }
-        throw new InvalidArgumentException("{$this->name} cannot be identical to '{$argument}'. Actual: '{$this->value}'");
+        throw new InvalidArgumentException("{$this->getName()} cannot be identical to '{$argument}'. Actual: '{$this->value}'");
     }
 }
