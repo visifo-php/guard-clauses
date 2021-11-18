@@ -35,10 +35,10 @@ final class Guard
             return 'Argument';
         }
 
-        $file = new SplFileObject($this->caller['file']);
-        $file->seek($this->caller['line'] - 1);
-        $line = $file->current();
-        $file = null;
+        $_file = new SplFileObject($this->caller['file']);
+        $_file->seek($this->caller['line'] - 1);
+        $line = $_file->current();
+        $_file = null;
 
         preg_match("/{$this->caller['function']}\((.*?)\)/", $line, $output);
 
