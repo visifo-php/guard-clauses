@@ -18,7 +18,7 @@ final class Guard
     {
         $this->value = $value;
         $this->optional = true;
-        $this->noValue = ! isset($value);
+        $this->noValue = !isset($value);
         $this->caller = $caller;
     }
 
@@ -71,7 +71,7 @@ final class Guard
         if ($this->optional && $this->noValue) {
             return $this;
         }
-        if (! empty($this->value)) {
+        if (!empty($this->value)) {
             return $this;
         }
 
@@ -107,7 +107,7 @@ final class Guard
         if ($this->optional && $this->noValue) {
             return $this;
         }
-        if (! ($this->value instanceof $type)) {
+        if (!($this->value instanceof $type)) {
             return $this;
         }
 
