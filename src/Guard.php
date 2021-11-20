@@ -5,21 +5,16 @@ declare(strict_types=1);
 namespace Visifo\GuardClauses;
 
 use InvalidArgumentException;
-use SplFileObject;
 
-final class Guard
+final class Guard extends AbstractGuard
 {
     private mixed $value;
-    private bool $optional;
-    private bool $noValue;
-    private array $caller;
 
     private function __construct(mixed $value, array $caller)
     {
+        parent::__construct($value, true, $caller);
+
         $this->value = $value;
-        $this->optional = true;
-        $this->noValue = !isset($value);
-        $this->caller = $caller;
     }
 
     public static function argument(mixed $value): Guard
@@ -29,20 +24,13 @@ final class Guard
         return new Guard($value, $caller);
     }
 
-    private function getName(): string
+    public function null()
     {
-        if (count($this->caller) == 0) {
-            return 'Argument';
+        if ($this->noValue) {
+            return;
         }
 
-        $_file = new SplFileObject($this->caller['file']);
-        $_file->seek($this->caller['line'] - 1);
-        $line = $_file->current();
-        $_file = null;
-
-        preg_match("/{$this->caller['function']}\((.*?)\)/", $line, $output);
-
-        return $output[1];
+        throw new InvalidArgumentException("{$this->getName()} must be null.");
     }
 
     public function notNull(): Guard
@@ -55,15 +43,6 @@ final class Guard
         }
 
         throw new InvalidArgumentException("{$this->getName()} cannot be null.");
-    }
-
-    public function null(): Guard
-    {
-        if ($this->noValue) {
-            return $this;
-        }
-
-        throw new InvalidArgumentException("{$this->getName()} must be null.");
     }
 
     public function notEmpty(): Guard
@@ -114,16 +93,6 @@ final class Guard
         throw new InvalidArgumentException("{$this->getName()} cannot be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
     }
 
-    private function getTypeDescription(): string
-    {
-        $actualType = gettype($this->value);
-        if (is_object($this->value)) {
-            $actualType .= " : " . get_class($this->value);
-        }
-
-        return $actualType;
-    }
-
     public function equal(mixed $argument): Guard
     {
         if ($this->optional && $this->noValue) {
@@ -170,5 +139,27 @@ final class Guard
         }
 
         throw new InvalidArgumentException("{$this->getName()} cannot be identical to '{$argument}'. Actual: '{$this->value}'");
+    }
+
+    public function isBool(): BoolGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return new BoolGuard(null, $this->optional, $this->caller);
+        }
+        if (is_bool($this->value)) {
+            return new BoolGuard($this->value, $this->optional, $this->caller);
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
+    }
+
+    private function getTypeDescription(): string
+    {
+        $actualType = gettype($this->value);
+        if (is_object($this->value)) {
+            $actualType .= " : " . get_class($this->value);
+        }
+
+        return $actualType;
     }
 }
