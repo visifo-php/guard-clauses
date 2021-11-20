@@ -165,6 +165,18 @@ final class Guard extends AbstractGuard
         throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
     }
 
+    public function isInt(): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return new IntGuard(null, $this->optional, $this->caller);
+        }
+        if (is_int($this->value)) {
+            return new IntGuard($this->value, $this->optional, $this->caller);
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
+    }
+
     private function getTypeDescription(): string
     {
         $actualType = gettype($this->value);
