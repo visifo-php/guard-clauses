@@ -177,6 +177,18 @@ final class Guard extends AbstractGuard
         throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
     }
 
+    public function isFloat(): FloatGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return new FloatGuard(null, $this->optional, $this->caller);
+        }
+        if (is_float($this->value)) {
+            return new FloatGuard($this->value, $this->optional, $this->caller);
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
+    }
+
     private function getTypeDescription(): string
     {
         $actualType = gettype($this->value);
