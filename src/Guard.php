@@ -24,10 +24,10 @@ final class Guard extends AbstractGuard
         return new Guard($value, $caller);
     }
 
-    public function null()
+    public function null(): Guard
     {
         if ($this->noValue) {
-            return;
+            return $this;
         }
 
         throw new InvalidArgumentException("{$this->getName()} must be null.");
