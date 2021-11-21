@@ -2,8 +2,6 @@
 
 namespace Visifo\GuardClauses;
 
-use InvalidArgumentException;
-
 class IntGuard extends AbstractGuard
 {
     private ?int $value;

@@ -2,8 +2,6 @@
 
 namespace Visifo\GuardClauses;
 
-use InvalidArgumentException;
-
 class FloatGuard extends AbstractGuard
 {
     private ?float $value;

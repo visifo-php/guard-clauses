@@ -2,8 +2,6 @@
 
 namespace Visifo\GuardClauses;
 
-use InvalidArgumentException;
-
 class StringGuard extends AbstractGuard
 {
     private ?string $value;
