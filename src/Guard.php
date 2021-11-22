@@ -86,7 +86,7 @@ final class Guard extends AbstractGuard
             return $this;
         }
 
-        throw new InvalidArgumentException("{$this->getName()} cannot be equal to '{$argument}'. Actual: '{$this->value}'");
+        throw new InvalidArgumentException("{$this->getName()} cannot be equal to: '{$argument}'. Actual: '{$this->value}'.");
     }
 
     public function identical(mixed $argument): Guard
@@ -110,7 +110,7 @@ final class Guard extends AbstractGuard
             return $this;
         }
 
-        throw new InvalidArgumentException("{$this->getName()} cannot be identical to '{$argument}'. Actual: '{$this->value}'");
+        throw new InvalidArgumentException("{$this->getName()} cannot be identical to: '{$argument}'. Actual: '{$this->value}'.");
     }
 
     public function isBool(): BoolGuard
