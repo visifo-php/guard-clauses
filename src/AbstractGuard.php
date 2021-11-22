@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Visifo\GuardClauses;
 
+use InvalidArgumentException;
 use SplFileObject;
 
 class AbstractGuard
@@ -16,9 +17,12 @@ class AbstractGuard
     protected function __construct(mixed $value, bool $optional, array $caller)
     {
         $this->value = $value;
+        $this->caller = $caller;
         $this->optional = $optional;
         $this->noValue = !isset($value);
-        $this->caller = $caller;
+        if (!$this->optional && $this->noValue) {
+            throw new InvalidArgumentException('Value must be optional to be null.');
+        }
     }
 
     protected function getName(): string
