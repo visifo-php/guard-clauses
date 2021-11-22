@@ -8,13 +8,9 @@ use InvalidArgumentException;
 
 final class Guard extends AbstractGuard
 {
-    private mixed $value;
-
     private function __construct(mixed $value, array $caller)
     {
         parent::__construct($value, true, $caller);
-
-        $this->value = $value;
     }
 
     public static function argument(mixed $value): Guard
@@ -67,30 +63,6 @@ final class Guard extends AbstractGuard
         }
 
         throw new InvalidArgumentException("{$this->getName()} must be empty.");
-    }
-
-    public function type(string $type): Guard
-    {
-        if ($this->optional && $this->noValue) {
-            return $this;
-        }
-        if ($this->value instanceof $type) {
-            return $this;
-        }
-
-        throw new InvalidArgumentException("{$this->getName()} must be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
-    }
-
-    public function notType(string $type): Guard
-    {
-        if ($this->optional && $this->noValue) {
-            return $this;
-        }
-        if (!($this->value instanceof $type)) {
-            return $this;
-        }
-
-        throw new InvalidArgumentException("{$this->getName()} cannot be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
     }
 
     public function equal(mixed $argument): Guard
@@ -162,7 +134,7 @@ final class Guard extends AbstractGuard
             return new StringGuard($this->value, $this->optional, $this->caller);
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be string. Actual: {$this->getTypeDescription()}");
     }
 
     public function isInt(): IntGuard
@@ -174,7 +146,7 @@ final class Guard extends AbstractGuard
             return new IntGuard($this->value, $this->optional, $this->caller);
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be int. Actual: {$this->getTypeDescription()}");
     }
 
     public function isFloat(): FloatGuard
@@ -186,16 +158,18 @@ final class Guard extends AbstractGuard
             return new FloatGuard($this->value, $this->optional, $this->caller);
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be float. Actual: {$this->getTypeDescription()}");
     }
 
-    private function getTypeDescription(): string
+    public function isObject(): ObjectGuard
     {
-        $actualType = gettype($this->value);
+        if ($this->optional && $this->noValue) {
+            return new ObjectGuard(null, $this->optional, $this->caller);
+        }
         if (is_object($this->value)) {
-            $actualType .= " : " . get_class($this->value);
+            return new ObjectGuard($this->value, $this->optional, $this->caller);
         }
 
-        return $actualType;
+        throw new InvalidArgumentException("{$this->getName()} must be object. Actual: {$this->getTypeDescription()}");
     }
 }

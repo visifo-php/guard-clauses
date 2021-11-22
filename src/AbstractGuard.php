@@ -8,15 +8,17 @@ use SplFileObject;
 
 class AbstractGuard
 {
-    protected array $caller;
+    protected mixed $value;
     protected bool $optional;
     protected bool $noValue;
+    protected array $caller;
 
     protected function __construct(mixed $value, bool $optional, array $caller)
     {
-        $this->caller = $caller;
+        $this->value = $value;
         $this->optional = $optional;
         $this->noValue = !isset($value);
+        $this->caller = $caller;
     }
 
     protected function getName(): string
@@ -33,5 +35,15 @@ class AbstractGuard
         preg_match("/{$this->caller['function']}\((.*?)\)/", $line, $output);
 
         return $output[1];
+    }
+
+    protected function getTypeDescription(): string
+    {
+        $actualType = gettype($this->value);
+        if (is_object($this->value)) {
+            $actualType .= ":" . get_class($this->value);
+        }
+
+        return $actualType;
     }
 }

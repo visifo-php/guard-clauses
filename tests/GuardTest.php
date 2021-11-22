@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Visifo\GuardClauses\Tests;
 
 use InvalidArgumentException;
