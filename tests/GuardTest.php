@@ -6,7 +6,12 @@ namespace Visifo\GuardClauses\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Visifo\GuardClauses\BoolGuard;
+use Visifo\GuardClauses\FloatGuard;
 use Visifo\GuardClauses\Guard;
+use Visifo\GuardClauses\IntGuard;
+use Visifo\GuardClauses\ObjectGuard;
+use Visifo\GuardClauses\StringGuard;
 
 class GuardTest extends TestCase
 {
@@ -236,5 +241,130 @@ class GuardTest extends TestCase
         $this->expectExceptionMessage("\$argument cannot be identical to: '{$value}'. Actual: '{$argument}'.");
 
         Guard::argument($argument)->notIdentical($value);
+    }
+
+    /** @test */
+    public function isBool_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isBool();
+
+        $this->assertTrue($result instanceof BoolGuard);
+    }
+
+    /** @test */
+    public function isBool_when_valueIsBool_then_succeed(): void
+    {
+        $result = Guard::argument(true)->isBool();
+
+        $this->assertTrue($result instanceof BoolGuard);
+    }
+
+    /** @test */
+    public function isBool_when_valueIsNotBool_then_throwException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('42 must be bool. Actual: integer');
+
+        Guard::argument(42)->isBool();
+    }
+
+    /** @test */
+    public function isString_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isString();
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test */
+    public function isString_when_valueIsString_then_succeed(): void
+    {
+        $result = Guard::argument('value')->isString();
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test */
+    public function isString_when_valueIsNotString_then_throwException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('42 must be string. Actual: integer');
+
+        Guard::argument(42)->isString();
+    }
+
+    /** @test */
+    public function isInt_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isInt();
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test */
+    public function isInt_when_valueIsInt_then_succeed(): void
+    {
+        $result = Guard::argument(42)->isInt();
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test */
+    public function isInt_when_valueIsNotInt_then_throwException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("'value' must be int. Actual: string");
+
+        Guard::argument('value')->isInt();
+    }
+
+    /** @test */
+    public function isFloat_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isFloat();
+
+        $this->assertTrue($result instanceof FloatGuard);
+    }
+
+    /** @test */
+    public function isFloat_when_valueIsFloat_then_succeed(): void
+    {
+        $result = Guard::argument(13.37)->isFloat();
+
+        $this->assertTrue($result instanceof FloatGuard);
+    }
+
+    /** @test */
+    public function isFloat_when_valueIsNotFloat_then_throwException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('42 must be float. Actual: integer');
+
+        Guard::argument(42)->isFloat();
+    }
+
+    /** @test */
+    public function isObject_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isObject();
+
+        $this->assertTrue($result instanceof ObjectGuard);
+    }
+
+    /** @test */
+    public function isObject_when_valueIsObject_then_succeed(): void
+    {
+        $result = Guard::argument(Guard::argument('value'))->isObject();
+
+        $this->assertTrue($result instanceof ObjectGuard);
+    }
+
+    /** @test */
+    public function isObject_when_valueIsNotObject_then_throwException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('42 must be object. Actual: integer');
+
+        Guard::argument(42)->isObject();
     }
 }

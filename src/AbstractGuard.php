@@ -7,7 +7,7 @@ namespace Visifo\GuardClauses;
 use InvalidArgumentException;
 use SplFileObject;
 
-class AbstractGuard
+abstract class AbstractGuard
 {
     protected mixed $value;
     protected bool $optional;
