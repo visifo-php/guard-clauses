@@ -122,7 +122,7 @@ final class Guard extends AbstractGuard
             return new BoolGuard($this->value, $this->optional, $this->caller);
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be bool. Actual: {$this->getTypeDescription()}.");
     }
 
     public function isString(): StringGuard
@@ -134,7 +134,7 @@ final class Guard extends AbstractGuard
             return new StringGuard($this->value, $this->optional, $this->caller);
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be string. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be string. Actual: {$this->getTypeDescription()}.");
     }
 
     public function isInt(): IntGuard
@@ -146,7 +146,7 @@ final class Guard extends AbstractGuard
             return new IntGuard($this->value, $this->optional, $this->caller);
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be int. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be int. Actual: {$this->getTypeDescription()}.");
     }
 
     public function isFloat(): FloatGuard
@@ -158,7 +158,7 @@ final class Guard extends AbstractGuard
             return new FloatGuard($this->value, $this->optional, $this->caller);
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be float. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be float. Actual: {$this->getTypeDescription()}.");
     }
 
     public function isObject(): ObjectGuard
@@ -170,6 +170,6 @@ final class Guard extends AbstractGuard
             return new ObjectGuard($this->value, $this->optional, $this->caller);
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be object. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be object. Actual: {$this->getTypeDescription()}.");
     }
 }

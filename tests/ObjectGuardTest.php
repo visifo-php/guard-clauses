@@ -58,7 +58,7 @@ class ObjectGuardTest extends TestCase
     public function type_when_valueIsInvalid_then_throwException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('$value must be an instance of type Visifo\GuardClauses\Guard. Actual: object:Visifo\GuardClauses\IntGuard');
+        $this->expectExceptionMessage('$value must be an instance of type Visifo\GuardClauses\Guard. Actual: object:Visifo\GuardClauses\IntGuard.');
 
         $value = Guard::argument(42)->isInt();
         Guard::argument($value)->isObject()->type(Guard::class);
@@ -85,7 +85,7 @@ class ObjectGuardTest extends TestCase
     public function notType_when_valueIsInvalid_then_throwException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('$value cannot be an instance of type Visifo\GuardClauses\Guard. Actual: object:Visifo\GuardClauses\Guard');
+        $this->expectExceptionMessage('$value cannot be an instance of type Visifo\GuardClauses\Guard. Actual: object:Visifo\GuardClauses\Guard.');
 
         $value = Guard::argument(42);
         Guard::argument($value)->isObject()->notType(Guard::class);

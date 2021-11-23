@@ -263,7 +263,7 @@ class GuardTest extends TestCase
     public function isBool_when_valueIsNotBool_then_throwException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('42 must be bool. Actual: integer');
+        $this->expectExceptionMessage('42 must be bool. Actual: integer.');
 
         Guard::argument(42)->isBool();
     }
@@ -288,7 +288,7 @@ class GuardTest extends TestCase
     public function isString_when_valueIsNotString_then_throwException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('42 must be string. Actual: integer');
+        $this->expectExceptionMessage('42 must be string. Actual: integer.');
 
         Guard::argument(42)->isString();
     }
@@ -313,7 +313,7 @@ class GuardTest extends TestCase
     public function isInt_when_valueIsNotInt_then_throwException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("'value' must be int. Actual: string");
+        $this->expectExceptionMessage("'value' must be int. Actual: string.");
 
         Guard::argument('value')->isInt();
     }
@@ -338,7 +338,7 @@ class GuardTest extends TestCase
     public function isFloat_when_valueIsNotFloat_then_throwException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('42 must be float. Actual: integer');
+        $this->expectExceptionMessage('42 must be float. Actual: integer.');
 
         Guard::argument(42)->isFloat();
     }
@@ -363,7 +363,7 @@ class GuardTest extends TestCase
     public function isObject_when_valueIsNotObject_then_throwException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('42 must be object. Actual: integer');
+        $this->expectExceptionMessage('42 must be object. Actual: integer.');
 
         Guard::argument(42)->isObject();
     }

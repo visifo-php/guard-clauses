@@ -22,7 +22,7 @@ class ObjectGuard extends AbstractGuard
             return $this;
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} must be an instance of type {$type}. Actual: {$this->getTypeDescription()}.");
     }
 
     public function notType(string $type): ObjectGuard
@@ -34,6 +34,6 @@ class ObjectGuard extends AbstractGuard
             return $this;
         }
 
-        throw new InvalidArgumentException("{$this->getName()} cannot be an instance of type {$type}. Actual: {$this->getTypeDescription()}");
+        throw new InvalidArgumentException("{$this->getName()} cannot be an instance of type {$type}. Actual: {$this->getTypeDescription()}.");
     }
 }

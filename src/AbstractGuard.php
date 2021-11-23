@@ -38,7 +38,7 @@ abstract class AbstractGuard
 
         preg_match("/{$this->caller['function']}\((.*?)\)/", $line, $output);
 
-        return $output[1];
+        return count($output) > 1 ? $output[1] : 'Argument';
     }
 
     protected function getTypeDescription(): string
