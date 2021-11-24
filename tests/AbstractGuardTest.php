@@ -25,7 +25,7 @@ class AbstractGuardTest extends TestCase
     public function getName_when_callerIsMissing_then_showPlaceholder(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument must be 0. Actual: 42.');
+        $this->expectExceptionMessage("Argument must be 0. Actual: '42'.");
 
         $variable = 42;
         (new IntGuard($variable, true, []))->zero();
