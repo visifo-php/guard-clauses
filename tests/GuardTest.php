@@ -74,7 +74,7 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEmptyProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEmptyProvider()
      */
     public function notEmpty_when_valueIsNotEmpty_then_succeed(mixed $value): void
     {
@@ -84,7 +84,7 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::emptyProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::emptyProvider()
      */
     public function notEmpty_when_valueIsEmpty_then_throwException(mixed $value): void
     {
@@ -103,7 +103,7 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::emptyProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::emptyProvider()
      */
     public function empty_when_valueIsEmpty_then_succeed(mixed $value): void
     {
@@ -113,7 +113,7 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEmptyProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEmptyProvider()
      */
     public function empty_when_valueIsNotEmpty_then_throwException(mixed $value): void
     {
@@ -132,8 +132,8 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::identicalProvider
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::equalCornerCasesProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::identicalProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::equalCornerCasesProvider()
      */
     public function equal_when_valueIsEqual_then_succeed(mixed $argument, mixed $value): void
     {
@@ -143,7 +143,7 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEqualProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEqualProvider()
      */
     public function equal_when_valueIsNotEqual_then_throwException(mixed $argument, mixed $value): void
     {
@@ -162,7 +162,7 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEqualProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEqualProvider()
      */
     public function notEqual_when_valueIsNotEqual_then_succeed(mixed $argument, mixed $value): void
     {
@@ -172,8 +172,8 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::identicalProvider
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::equalCornerCasesProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::identicalProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::equalCornerCasesProvider()
      */
     public function notEqual_when_valueIsEqual_then_throwException(mixed $argument, mixed $value): void
     {
@@ -192,7 +192,7 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::identicalProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::identicalProvider()
      */
     public function identical_when_valueIsIdentical_then_succeed(mixed $argument, mixed $value): void
     {
@@ -202,8 +202,8 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEqualProvider
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::equalCornerCasesProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEqualProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::equalCornerCasesProvider()
      */
     public function identical_when_valueIsNotIdentical_then_throwException(mixed $argument, mixed $value): void
     {
@@ -222,9 +222,9 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEqualProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::notEqualProvider()
      */
-    public function notIdentical_when_valueIsNotEqual_then_succeed(mixed $argument, mixed $value): void
+    public function notIdentical_when_valueIsNotIdentical_then_succeed(mixed $argument, mixed $value): void
     {
         $result = Guard::argument($argument)->notIdentical($value);
 
@@ -232,10 +232,10 @@ class GuardTest extends TestCase
     }
 
     /** @test
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::identicalProvider
-     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::equalCornerCasesProvider
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::identicalProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\GuardProvider::equalCornerCasesProvider()
      */
-    public function notIdentical_when_valueIsEqual_then_throwException(mixed $argument, mixed $value): void
+    public function notIdentical_when_valueIsIdentical_then_throwException(mixed $argument, mixed $value): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$argument cannot be identical to: '{$value}'. Actual: '{$argument}'.");

@@ -20,6 +20,66 @@ class IntGuard extends AbstractGuard
             return $this;
         }
 
-        throw new InvalidArgumentException("{$this->getName()} must be 0. Actual: {$this->value}.");
+        throw new InvalidArgumentException("{$this->getName()} must be 0. Actual: '{$this->value}'.");
+    }
+
+    public function notZero(): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if ($this->value !== 0) {
+            return $this;
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} cannot be 0. Actual: '{$this->value}'.");
+    }
+
+    public function positive(): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if ($this->value > 0) {
+            return $this;
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be positive and bigger then 0. Actual: '{$this->value}'.");
+    }
+
+    public function negative(): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if ($this->value < 0) {
+            return $this;
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be negative and smaller then 0. Actual: '{$this->value}'.");
+    }
+
+    public function positiveOrZero(): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if ($this->value >= 0) {
+            return $this;
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be positive or 0. Actual: '{$this->value}'.");
+    }
+
+    public function negativeOrZero(): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if ($this->value <= 0) {
+            return $this;
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be negative or 0. Actual: '{$this->value}'.");
     }
 }
