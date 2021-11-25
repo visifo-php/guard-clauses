@@ -239,6 +239,18 @@ class IntGuardTest extends TestCase
     }
 
     /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMinProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMaxProvider()
+     */
+    public function betweenIncluded_when_valueIsBetweenIncludedReverted_then_succeed(int $value): void
+    {
+        $result = Guard::argument($value)->isInt()->betweenIncluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
      * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::outsideProvider()
      */
     public function betweenIncluded_when_valueIsOutsideExcluded_then_throwException(int $value): void
@@ -247,6 +259,17 @@ class IntGuardTest extends TestCase
         $this->expectExceptionMessage("\$value must be between '-10' and '42' included them. Actual: '{$value}'.");
 
         Guard::argument($value)->isInt()->betweenIncluded(IntGuardProvider::$BETWEEN_MIN_VALUE, IntGuardProvider::$BETWEEN_MAX_VALUE);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::outsideProvider()
+     */
+    public function betweenIncluded_when_valueIsOutsideExcludedReverted_then_throwException(int $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must be between '-10' and '42' included them. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->betweenIncluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
     }
 
     /** @test */
@@ -268,6 +291,16 @@ class IntGuardTest extends TestCase
     }
 
     /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenProvider()
+     */
+    public function betweenExcluded_when_valueIsBetweenExcludedReverted_then_succeed(int $value): void
+    {
+        $result = Guard::argument($value)->isInt()->betweenExcluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
      * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::outsideProvider()
      * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMinProvider()
      * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMaxProvider()
@@ -278,6 +311,19 @@ class IntGuardTest extends TestCase
         $this->expectExceptionMessage("\$value must be between '-10' and '42' excluded them. Actual: '{$value}'.");
 
         Guard::argument($value)->isInt()->betweenExcluded(IntGuardProvider::$BETWEEN_MIN_VALUE, IntGuardProvider::$BETWEEN_MAX_VALUE);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::outsideProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMinProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMaxProvider()
+     */
+    public function betweenExcluded_when_valueIsOutsideIncludedReverted_then_throwException(int $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must be between '-10' and '42' excluded them. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->betweenExcluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
     }
 
     /** @test */
@@ -301,6 +347,18 @@ class IntGuardTest extends TestCase
     }
 
     /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::outsideProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMinProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMaxProvider()
+     */
+    public function outsideIncluded_when_valueIsOutsideIncludedReverted_then_succeed(int $value): void
+    {
+        $result = Guard::argument($value)->isInt()->outsideIncluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
      * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenProvider()
      */
     public function outsideIncluded_when_valueIsBetweenExcluded_then_throwException(int $value): void
@@ -309,6 +367,17 @@ class IntGuardTest extends TestCase
         $this->expectExceptionMessage("\$value must be outside '-10' and '42' included them. Actual: '{$value}'.");
 
         Guard::argument($value)->isInt()->outsideIncluded(IntGuardProvider::$BETWEEN_MIN_VALUE, IntGuardProvider::$BETWEEN_MAX_VALUE);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenProvider()
+     */
+    public function outsideIncluded_when_valueIsBetweenExcludedReverted_then_throwException(int $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must be outside '-10' and '42' included them. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->outsideIncluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
     }
 
     /** @test */
@@ -330,6 +399,16 @@ class IntGuardTest extends TestCase
     }
 
     /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::outsideProvider()
+     */
+    public function outsideExcluded_when_valueIsOutsideExcludedReverted_then_succeed(int $value): void
+    {
+        $result = Guard::argument($value)->isInt()->outsideExcluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
      * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenProvider()
      * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMinProvider()
      * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMaxProvider()
@@ -340,5 +419,18 @@ class IntGuardTest extends TestCase
         $this->expectExceptionMessage("\$value must be outside '-10' and '42' excluded them. Actual: '{$value}'.");
 
         Guard::argument($value)->isInt()->outsideExcluded(IntGuardProvider::$BETWEEN_MIN_VALUE, IntGuardProvider::$BETWEEN_MAX_VALUE);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMinProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::betweenBorderMaxProvider()
+     */
+    public function outsideExcluded_when_valueIsBetweenIncludedReverted_then_throwException(int $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must be outside '-10' and '42' excluded them. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->outsideExcluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
     }
 }

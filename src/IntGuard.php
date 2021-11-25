@@ -83,11 +83,13 @@ class IntGuard extends AbstractGuard
         throw new InvalidArgumentException("{$this->getName()} must be negative or 0. Actual: '{$this->value}'.");
     }
 
-    public function betweenIncluded(int $min, int $max): IntGuard
+    public function betweenIncluded(int $from, int $to): IntGuard
     {
         if ($this->optional && $this->noValue) {
             return $this;
         }
+        $min = min($from, $to);
+        $max = max($from, $to);
         if ($min <= $this->value && $this->value <= $max) {
             return $this;
         }
@@ -95,11 +97,13 @@ class IntGuard extends AbstractGuard
         throw new InvalidArgumentException("{$this->getName()} must be between '{$min}' and '{$max}' included them. Actual: '{$this->value}'.");
     }
 
-    public function betweenExcluded(int $min, int $max): IntGuard
+    public function betweenExcluded(int $from, int $to): IntGuard
     {
         if ($this->optional && $this->noValue) {
             return $this;
         }
+        $min = min($from, $to);
+        $max = max($from, $to);
         if ($min < $this->value && $this->value < $max) {
             return $this;
         }
@@ -107,11 +111,13 @@ class IntGuard extends AbstractGuard
         throw new InvalidArgumentException("{$this->getName()} must be between '{$min}' and '{$max}' excluded them. Actual: '{$this->value}'.");
     }
 
-    public function outsideIncluded(int $min, int $max): IntGuard
+    public function outsideIncluded(int $from, int $to): IntGuard
     {
         if ($this->optional && $this->noValue) {
             return $this;
         }
+        $min = min($from, $to);
+        $max = max($from, $to);
         if ($this->value <= $min || $max <= $this->value) {
             return $this;
         }
@@ -119,11 +125,13 @@ class IntGuard extends AbstractGuard
         throw new InvalidArgumentException("{$this->getName()} must be outside '{$min}' and '{$max}' included them. Actual: '{$this->value}'.");
     }
 
-    public function outsideExcluded(int $min, int $max): IntGuard
+    public function outsideExcluded(int $from, int $to): IntGuard
     {
         if ($this->optional && $this->noValue) {
             return $this;
         }
+        $min = min($from, $to);
+        $max = max($from, $to);
         if ($this->value < $min || $max < $this->value) {
             return $this;
         }
