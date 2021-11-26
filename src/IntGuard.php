@@ -199,6 +199,7 @@ class IntGuard extends AbstractGuard
         }
 
         $allowed = implode(", ", $arguments);
+
         throw new InvalidArgumentException("{$this->getName()} must be one of '{$allowed}'. Actual: '{$this->value}'.");
     }
 
@@ -210,9 +211,11 @@ class IntGuard extends AbstractGuard
         foreach ($arguments as $argument) {
             if ($this->value === $argument) {
                 $forbidden = implode(", ", $arguments);
+
                 throw new InvalidArgumentException("{$this->getName()} cannot be one of '{$forbidden}'. Actual: '{$this->value}'.");
             }
         }
+
         return $this;
     }
 }
