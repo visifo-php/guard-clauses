@@ -433,4 +433,64 @@ class IntGuardTest extends TestCase
 
         Guard::argument($value)->isInt()->outsideExcluded(IntGuardProvider::$BETWEEN_MAX_VALUE, IntGuardProvider::$BETWEEN_MIN_VALUE);
     }
+
+    /** @test */
+    public function greater_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isInt()->greater(-100);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::greaterProvider()
+     */
+    public function greater_when_valueIsGreater_then_succeed(int $value): void
+    {
+        $result = Guard::argument($value)->isInt()->greater(IntGuardProvider::$COMPARE_VALUE);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::lessProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::equalProvider()
+     */
+    public function greater_when_valueIsLessOrEqual_then_throwException(int $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must be greater than '10'. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->greater(IntGuardProvider::$COMPARE_VALUE);
+    }
+
+    /** @test */
+    public function less_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isInt()->less(100);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::lessProvider()
+     */
+    public function less_when_valueIsLess_then_succeed(int $value): void
+    {
+        $result = Guard::argument($value)->isInt()->less(IntGuardProvider::$COMPARE_VALUE);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::greaterProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\IntGuardProvider::equalProvider()
+     */
+    public function less_when_valueIsGreaterOrEqual_then_throwException(int $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must be less than '10'. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->less(IntGuardProvider::$COMPARE_VALUE);
+    }
 }

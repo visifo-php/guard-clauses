@@ -138,4 +138,28 @@ class IntGuard extends AbstractGuard
 
         throw new InvalidArgumentException("{$this->getName()} must be outside '{$min}' and '{$max}' excluded them. Actual: '{$this->value}'.");
     }
+
+    public function greater(int $argument): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if ($this->value > $argument) {
+            return $this;
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be greater than '{$argument}'. Actual: '{$this->value}'.");
+    }
+
+    public function less(int $argument): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if ($this->value < $argument) {
+            return $this;
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} must be less than '{$argument}'. Actual: '{$this->value}'.");
+    }
 }

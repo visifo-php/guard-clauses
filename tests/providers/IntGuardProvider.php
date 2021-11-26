@@ -8,6 +8,7 @@ class IntGuardProvider
 {
     public static int $BETWEEN_MIN_VALUE = -10;
     public static int $BETWEEN_MAX_VALUE = 42;
+    public static int $COMPARE_VALUE = 10;
 
     public function positiveProvider(): array
     {
@@ -64,6 +65,30 @@ class IntGuardProvider
             'int -11' => [-11],
             'int 43' => [43],
             'int max' => [PHP_INT_MAX],
+        ];
+    }
+
+    public function greaterProvider(): array
+    {
+        return [
+            'int 11' => [11],
+            'int max' => [PHP_INT_MAX],
+        ];
+    }
+
+    public function lessProvider(): array
+    {
+        return [
+            'int 9' => [9],
+            'int -10' => [-10],
+            'int min' => [PHP_INT_MIN],
+        ];
+    }
+
+    public function equalProvider(): array
+    {
+        return [
+            'equal' => [self::$COMPARE_VALUE],
         ];
     }
 }
