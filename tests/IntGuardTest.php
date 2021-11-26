@@ -494,7 +494,6 @@ class IntGuardTest extends TestCase
         Guard::argument($value)->isInt()->less(IntGuardProvider::$COMPARE_VALUE);
     }
 
-
     /** @test */
     public function greaterOrEqual_when_valueIsOptional_then_succeed(): void
     {
