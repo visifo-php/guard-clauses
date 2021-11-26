@@ -6,9 +6,11 @@ namespace Visifo\GuardClauses\Tests\providers;
 
 class IntGuardProvider
 {
+    public static int $DEFAULT_VALUE = 10;
     public static int $BETWEEN_MIN_VALUE = -10;
     public static int $BETWEEN_MAX_VALUE = 42;
-    public static int $COMPARE_VALUE = 10;
+    public static array $ALLOWED_VALUE = [-5, 0, 5];
+    public static array $FORBIDDEN_VALUE = [-10, 1, 10];
 
     public function positiveProvider(): array
     {
@@ -88,7 +90,25 @@ class IntGuardProvider
     public function equalProvider(): array
     {
         return [
-            'equal' => [self::$COMPARE_VALUE],
+            'equal' => [self::$DEFAULT_VALUE],
+        ];
+    }
+
+    public function allowedProvider(): array
+    {
+        return [
+            'int -5' => [-5],
+            'int 0' => [0],
+            'int 5' => [5],
+        ];
+    }
+
+    public function forbiddenProvider(): array
+    {
+        return [
+            'int -10' => [-10],
+            'int 1' => [1],
+            'int 10' => [10],
         ];
     }
 }

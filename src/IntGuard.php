@@ -186,4 +186,33 @@ class IntGuard extends AbstractGuard
 
         throw new InvalidArgumentException("{$this->getName()} must be less or equal than '{$argument}'. Actual: '{$this->value}'.");
     }
+
+    public function allowed(int ...$arguments): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        foreach ($arguments as $argument) {
+            if ($this->value === $argument) {
+                return $this;
+            }
+        }
+
+        $allowed = implode(", ", $arguments);
+        throw new InvalidArgumentException("{$this->getName()} must be one of '{$allowed}'. Actual: '{$this->value}'.");
+    }
+
+    public function forbidden(int ...$arguments): IntGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        foreach ($arguments as $argument) {
+            if ($this->value === $argument) {
+                $forbidden = implode(", ", $arguments);
+                throw new InvalidArgumentException("{$this->getName()} cannot be one of '{$forbidden}'. Actual: '{$this->value}'.");
+            }
+        }
+        return $this;
+    }
 }

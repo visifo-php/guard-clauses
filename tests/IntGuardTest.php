@@ -447,7 +447,7 @@ class IntGuardTest extends TestCase
      */
     public function greater_when_valueIsGreater_then_succeed(int $value): void
     {
-        $result = Guard::argument($value)->isInt()->greater(IntGuardProvider::$COMPARE_VALUE);
+        $result = Guard::argument($value)->isInt()->greater(IntGuardProvider::$DEFAULT_VALUE);
 
         $this->assertTrue($result instanceof IntGuard);
     }
@@ -461,7 +461,7 @@ class IntGuardTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$value must be greater than '10'. Actual: '{$value}'.");
 
-        Guard::argument($value)->isInt()->greater(IntGuardProvider::$COMPARE_VALUE);
+        Guard::argument($value)->isInt()->greater(IntGuardProvider::$DEFAULT_VALUE);
     }
 
     /** @test */
@@ -477,7 +477,7 @@ class IntGuardTest extends TestCase
      */
     public function less_when_valueIsLess_then_succeed(int $value): void
     {
-        $result = Guard::argument($value)->isInt()->less(IntGuardProvider::$COMPARE_VALUE);
+        $result = Guard::argument($value)->isInt()->less(IntGuardProvider::$DEFAULT_VALUE);
 
         $this->assertTrue($result instanceof IntGuard);
     }
@@ -491,7 +491,7 @@ class IntGuardTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$value must be less than '10'. Actual: '{$value}'.");
 
-        Guard::argument($value)->isInt()->less(IntGuardProvider::$COMPARE_VALUE);
+        Guard::argument($value)->isInt()->less(IntGuardProvider::$DEFAULT_VALUE);
     }
 
     /** @test */
@@ -508,7 +508,7 @@ class IntGuardTest extends TestCase
      */
     public function greaterOrEqual_when_valueIsGreaterOrEqual_then_succeed(int $value): void
     {
-        $result = Guard::argument($value)->isInt()->greaterOrEqual(IntGuardProvider::$COMPARE_VALUE);
+        $result = Guard::argument($value)->isInt()->greaterOrEqual(IntGuardProvider::$DEFAULT_VALUE);
 
         $this->assertTrue($result instanceof IntGuard);
     }
@@ -521,7 +521,7 @@ class IntGuardTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$value must be greater or equal than '10'. Actual: '{$value}'.");
 
-        Guard::argument($value)->isInt()->greaterOrEqual(IntGuardProvider::$COMPARE_VALUE);
+        Guard::argument($value)->isInt()->greaterOrEqual(IntGuardProvider::$DEFAULT_VALUE);
     }
 
     /** @test */
@@ -538,7 +538,7 @@ class IntGuardTest extends TestCase
      */
     public function lessOrEqual_when_valueIsLessOrEqual_then_succeed(int $value): void
     {
-        $result = Guard::argument($value)->isInt()->lessOrEqual(IntGuardProvider::$COMPARE_VALUE);
+        $result = Guard::argument($value)->isInt()->lessOrEqual(IntGuardProvider::$DEFAULT_VALUE);
 
         $this->assertTrue($result instanceof IntGuard);
     }
@@ -551,6 +551,82 @@ class IntGuardTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$value must be less or equal than '10'. Actual: '{$value}'.");
 
-        Guard::argument($value)->isInt()->lessOrEqual(IntGuardProvider::$COMPARE_VALUE);
+        Guard::argument($value)->isInt()->lessOrEqual(IntGuardProvider::$DEFAULT_VALUE);
+    }
+
+    /** @test */
+    public function allowed_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isInt()->allowed();
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test */
+    public function allowed_when_noArguments_then_throwException(): void
+    {
+        $value = IntGuardProvider::$DEFAULT_VALUE;
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must be one of ''. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->allowed();
+    }
+
+    /** @test
+     * @dataProvider  \Visifo\GuardClauses\Tests\providers\IntGuardProvider::allowedProvider()
+     */
+    public function allowed_when_valueIsAllowed_then_succeed($value): void
+    {
+        $result = Guard::argument($value)->isInt()->allowed(...IntGuardProvider::$ALLOWED_VALUE);
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
+     * @dataProvider  \Visifo\GuardClauses\Tests\providers\IntGuardProvider::forbiddenProvider()
+     */
+    public function allowed_when_valueIsNotAllowed_then_throwException($value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must be one of '-5, 0, 5'. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->allowed(...IntGuardProvider::$ALLOWED_VALUE);
+    }
+
+    /** @test */
+    public function forbidden_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isInt()->forbidden();
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test */
+    public function forbidden_when_noArguments_then_succeed(): void
+    {
+        $result = Guard::argument(IntGuardProvider::$DEFAULT_VALUE)->isInt()->forbidden();
+
+        $this->assertTrue($result instanceof IntGuard);
+    }
+
+    /** @test
+     * @dataProvider  \Visifo\GuardClauses\Tests\providers\IntGuardProvider::forbiddenProvider()
+     */
+    public function forbidden_when_valueIsForbidden_then_throwException($value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value cannot be one of '-10, 1, 10'. Actual: '{$value}'.");
+
+        Guard::argument($value)->isInt()->forbidden(...IntGuardProvider::$FORBIDDEN_VALUE);
+    }
+
+    /** @test
+     * @dataProvider  \Visifo\GuardClauses\Tests\providers\IntGuardProvider::allowedProvider()
+     */
+    public function forbidden_when_valueIsNotForbidden_then_succeed($value): void
+    {
+        $result = Guard::argument($value)->isInt()->forbidden(...IntGuardProvider::$FORBIDDEN_VALUE);
+
+        $this->assertTrue($result instanceof IntGuard);
     }
 }
