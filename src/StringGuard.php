@@ -34,4 +34,17 @@ class StringGuard extends AbstractGuard
 
         throw new InvalidArgumentException("{$this->getName()} cannot be empty. Actual: '{$this->value}'.");
     }
+
+    public function noWhitespace(): StringGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        $trimmed = trim($this->value);
+        if ($this->value === $trimmed) {
+            return $this;
+        }
+
+        throw new InvalidArgumentException("{$this->getName()} cannot start or end with whitespace. Actual: '{$this->value}'.");
+    }
 }

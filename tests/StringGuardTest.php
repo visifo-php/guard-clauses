@@ -61,7 +61,7 @@ class StringGuardTest extends TestCase
         $value = StringGuardProvider::$DEFAULT_VALUE;
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("\$value must be empty. Actual: 'Content'.");
+        $this->expectExceptionMessage("\$value must be empty. Actual: 'content'.");
 
         Guard::argument($value)->isString()->empty();
     }
@@ -92,5 +92,34 @@ class StringGuardTest extends TestCase
         $this->expectExceptionMessage("\$value cannot be empty. Actual: ''.");
 
         Guard::argument($value)->isString()->notEmpty();
+    }
+
+    /** @test */
+    public function noWhitespace_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isString()->noWhitespace();
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::noWhitespaceProvider()
+     */
+    public function noWhitespace_when_valueHasNoWhitespace_then_succeed(string $value): void
+    {
+        $result = Guard::argument($value)->isString()->noWhitespace();
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::whitespaceProvider()
+     */
+    public function noWhitespace_when_valueHasWhitespace_then_throwException(string $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value cannot start or end with whitespace. Actual: '{$value}'.");
+
+        Guard::argument($value)->isString()->noWhitespace();
     }
 }
