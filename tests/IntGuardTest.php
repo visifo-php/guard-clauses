@@ -32,7 +32,7 @@ class IntGuardTest extends TestCase
     /** @test */
     public function construct_when_valueIsInt_then_succeed(): void
     {
-        $value = 42;
+        $value = IntGuardProvider::$DEFAULT_VALUE;
         $result = new IntGuard($value, true, []);
 
         $this->assertTrue($result instanceof IntGuard);
