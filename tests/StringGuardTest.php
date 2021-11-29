@@ -122,4 +122,94 @@ class StringGuardTest extends TestCase
 
         Guard::argument($value)->isString()->noWhitespace();
     }
+
+    /** @test */
+    public function length_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isString()->length(StringGuardProvider::$DEFAULT_LENGTH);
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::exactLengthProvider()
+     */
+    public function length_when_valueHasRightLength_then_succeed(string $value, int $length): void
+    {
+        $result = Guard::argument($value)->isString()->length(StringGuardProvider::$DEFAULT_LENGTH);
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::shortLengthProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::longLengthProvider()
+     */
+    public function length_when_valueHasWrongLength_when_trowException(string $value, int $length): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must have a lenght of '7'. Actual: '{$length}'.");
+
+        Guard::argument($value)->isString()->length(StringGuardProvider::$DEFAULT_LENGTH);
+    }
+
+    /** @test */
+    public function minLength_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isString()->minLength(StringGuardProvider::$DEFAULT_LENGTH);
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::exactLengthProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::longLengthProvider()
+     */
+    public function minLength_when_valueHasRightLength_then_succeed(string $value, int $length): void
+    {
+        $result = Guard::argument($value)->isString()->minLength(StringGuardProvider::$DEFAULT_LENGTH);
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::shortLengthProvider()
+     */
+    public function minLength_when_valueHasWrongLength_when_trowException(string $value, int $length): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must have a minimum lenght of '7'. Actual: '{$length}'.");
+
+        Guard::argument($value)->isString()->minLength(StringGuardProvider::$DEFAULT_LENGTH);
+    }
+
+    /** @test */
+    public function maxLength_when_valueIsOptional_then_succeed(): void
+    {
+        $result = Guard::argument(null)->isString()->maxLength(StringGuardProvider::$DEFAULT_LENGTH);
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::exactLengthProvider()
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::shortLengthProvider()
+     */
+    public function maxLength_when_valueHasRightLength_then_succeed(string $value, int $length): void
+    {
+        $result = Guard::argument($value)->isString()->maxLength(StringGuardProvider::$DEFAULT_LENGTH);
+
+        $this->assertTrue($result instanceof StringGuard);
+    }
+
+    /** @test
+     * @dataProvider \Visifo\GuardClauses\Tests\providers\StringGuardProvider::longLengthProvider()
+     */
+    public function maxLength_when_valueHasWrongLength_when_trowException(string $value, int $length): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("\$value must have a maximum lenght of '7'. Actual: '{$length}'.");
+
+        Guard::argument($value)->isString()->maxLength(StringGuardProvider::$DEFAULT_LENGTH);
+    }
 }

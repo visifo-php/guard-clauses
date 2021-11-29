@@ -47,4 +47,43 @@ class StringGuard extends AbstractGuard
 
         throw new InvalidArgumentException("{$this->getName()} cannot start or end with whitespace. Actual: '{$this->value}'.");
     }
+
+    public function length(int $count): StringGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if (strlen($this->value) === $count) {
+            return $this;
+        }
+
+        $actualLength = strlen($this->value);
+        throw new InvalidArgumentException("{$this->getName()} must have a lenght of '{$count}'. Actual: '{$actualLength}'.");
+    }
+
+    public function minLength(int $count): StringGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if (strlen($this->value) >= $count) {
+            return $this;
+        }
+
+        $actualLength = strlen($this->value);
+        throw new InvalidArgumentException("{$this->getName()} must have a minimum lenght of '{$count}'. Actual: '{$actualLength}'.");
+    }
+
+    public function maxLength(int $count): StringGuard
+    {
+        if ($this->optional && $this->noValue) {
+            return $this;
+        }
+        if (strlen($this->value) <= $count) {
+            return $this;
+        }
+
+        $actualLength = strlen($this->value);
+        throw new InvalidArgumentException("{$this->getName()} must have a maximum lenght of '{$count}'. Actual: '{$actualLength}'.");
+    }
 }
