@@ -58,6 +58,7 @@ class StringGuard extends AbstractGuard
         }
 
         $actualLength = strlen($this->value);
+
         throw new InvalidArgumentException("{$this->getName()} must have a lenght of '{$count}'. Actual: '{$actualLength}'.");
     }
 
@@ -71,6 +72,7 @@ class StringGuard extends AbstractGuard
         }
 
         $actualLength = strlen($this->value);
+
         throw new InvalidArgumentException("{$this->getName()} must have a minimum lenght of '{$count}'. Actual: '{$actualLength}'.");
     }
 
@@ -84,6 +86,7 @@ class StringGuard extends AbstractGuard
         }
 
         $actualLength = strlen($this->value);
+
         throw new InvalidArgumentException("{$this->getName()} must have a maximum lenght of '{$count}'. Actual: '{$actualLength}'.");
     }
 }

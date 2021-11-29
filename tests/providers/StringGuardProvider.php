@@ -47,7 +47,7 @@ class StringGuardProvider
     {
         return [
             'long 8' => ['content+', 8],
-            'long 15' => ['content content', 15]
+            'long 15' => ['content content', 15],
         ];
     }
 }
